@@ -46,3 +46,14 @@ int main()
 
     return 0;
 }
+void setup()
+{
+    gameOver = false;
+    dir = STOP;
+    headX = width / 2;
+    headY = height / 2;
+    fruitX = rand() % width;
+    fruitY = rand() % height;
+    score = 0;
+}
+
