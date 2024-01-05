@@ -1,6 +1,8 @@
-#include<iostream>
-#include<conio.h>
-#include<Windows.h>
+#include <iostream>
+#include <Windows.h>
+#include <conio.h>
+#include <thread>
+#include <chrono>
 
 using namespace std;
 
