@@ -131,6 +131,15 @@ void draw()
 
         cout << endl;
     }
+    // Lower Border
+    cout << "\t\t";
+    for (int i = 0; i < width; i++)
+    {
+        cout << "# ";
+    }
+    cout << endl;
+    cout << "\t\t\tScore: " << score << endl;
+}
     void input()
 {
     if (_kbhit())
@@ -152,14 +161,71 @@ void draw()
             break;
         }
 }
-
-
-    // Lower Border
-    cout << "\t\t";
-    for (int i = 0; i < width; i++)
+void logic()
+{
+    // tail logic
+    int prevx = tailx[0];
+    int prevy = taily[0];
+    int prev2x, prev2y;
+    tailx[0] = headX;
+    taily[0] = headY;
+    for (int i = 1; i < tail_len; i++)
     {
-        cout << "# ";
+        prev2x = tailx[i];
+        prev2y = taily[i];
+        tailx[i] = prevx;
+        taily[i] = prevy;
+        prevx = prev2x;
+        prevy = prev2y;
     }
-    cout << endl;
-    cout << "\t\t\tScore: " << score << endl;
+
+    // direction logic
+    switch (dir)
+    {
+    case LEFT:
+        headX--;
+        break;
+    case RIGHT:
+        headX++;
+        break;
+    case UP:
+        headY--;
+        break;
+    case DOWN:
+        headY++;
+        break;
+    default:
+        break;
+    }
+
+    // check if snake touches the middle border
+    if (headX == (2 * width) / 3 && (5 < headY && headY < 15))
+    {
+        gameOver = true;
+        return;
+    }
+
+    // touch walls
+    if (headX >= width || headX < 0 || headY >= height || headY < 0)
+    {
+        gameOver = true;
+    }
+
+    // snake bite itself
+    for (int i = 0; i < tail_len; i++)
+    {
+        if (tailx[i] == headX && taily[i] == headY)
+        {
+            gameOver = true;
+        }
+    }
+
+    // snake eat fruit
+    if (headX == fruitX && headY == fruitY)
+    {
+        score += 10;
+        fruitX = rand() % width;
+        fruitY = rand() % height;
+        tail_len++;
+    }
 }
