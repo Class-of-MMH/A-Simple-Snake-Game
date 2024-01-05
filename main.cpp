@@ -157,7 +157,7 @@ void draw()
 }
 
 void input()
- {
+{
     if (_kbhit())
         switch (_getch())
         {
@@ -177,7 +177,6 @@ void input()
             break;
         }
 }
-
 void logic()
 {
     // tail logic
