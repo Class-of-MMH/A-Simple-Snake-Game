@@ -26,18 +26,24 @@ int main()
     cout << "\t-------------------------------" << endl;
     cout << "\tPress 's' to start: ";
     cin >> start;
-    if(start == 's')
-        {
+    if (start == 's') {
         setup();
-        while(!gameOver)
-        {
+
+        // Clear the screen once before entering the game loop
+        system("cls");
+
+        while (!gameOver) {
             draw();
             input();
             logic();
+
             // Sleep for 100 milliseconds
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            
+
+            // Clear the screen before redrawing in the next iteration
+            system("cls");
         }
+
         // Display the final score
         cout << "\t-------------------------------" << endl;
         cout << "\t\t Game Over!" << endl;
@@ -47,6 +53,7 @@ int main()
 
     return 0;
 }
+
 void setup()
 {
     gameOver = false;
@@ -58,7 +65,6 @@ void setup()
     score = 0;
 }
 
-
 void draw()
 {
     // Get the console handle
@@ -67,13 +73,15 @@ void draw()
     // Set the cursor position to the top-left corner
     SetConsoleCursorPosition(console, {0, 0});
 
+    // Construct the entire game board as a string
+    string gameBoard = "\t\t";
+
     // Upper Border
-    cout << "\t\t";
     for (int i = 0; i < width; i++)
     {
-        cout << "# ";
+        gameBoard += "# ";
     }
-    cout << endl;
+    gameBoard += "\n";
 
     // Snake, fruit, space, and side borders
     for (int i = 0; i < height; i++)
@@ -83,24 +91,24 @@ void draw()
             // left border
             if (j == 0)
             {
-                cout << "\t\t#";
+                gameBoard += "\t\t#";
             }
 
             // extra border in the middle
             if (j == (2 * width) / 3 && (5 < i && i < 15))
             {
-                cout << "   #";
+                gameBoard += "   #";
             }
 
             // snake head
             if (i == headY && j == headX)
             {
-                cout << "O";
+                gameBoard += "O";
             }
             // fruit
             else if (i == fruitY && j == fruitX)
             {
-                cout << "*";
+                gameBoard += "*";
             }
             // space, snake tail
             else
@@ -111,37 +119,42 @@ void draw()
                 {
                     if (tailx[k] == j && taily[k] == i)
                     {
-                        cout << "o";
+                        gameBoard += "o";
                         print = true;
                     }
                 }
                 // space
                 if (!print)
                 {
-                    cout << " ";
+                    gameBoard += " ";
                 }
             }
 
             // right border
             if (j == width - 1)
             {
-                cout << "\t\t    #";
+                gameBoard += "\t\t    #";
             }
         }
 
-        cout << endl;
+        gameBoard += "\n";
     }
+
     // Lower Border
-    cout << "\t\t";
+    gameBoard += "\t\t";
     for (int i = 0; i < width; i++)
     {
-        cout << "# ";
+        gameBoard += "# ";
     }
-    cout << endl;
-    cout << "\t\t\tScore: " << score << endl;
+    gameBoard += "\n";
+    gameBoard += "\t\t\tScore: " + to_string(score) + "\n";
+
+    // Display the entire game board at once
+    cout << gameBoard;
 }
-    void input()
-{
+
+void input()
+ {
     if (_kbhit())
         switch (_getch())
         {
@@ -161,6 +174,7 @@ void draw()
             break;
         }
 }
+
 void logic()
 {
     // tail logic
