@@ -6,11 +6,11 @@
 
 using namespace std;
 
-enum Direction{STOP = 0, LEFT, RIGHT, UP, DOWN};
+enum Direction { STOP = 0, LEFT, RIGHT, UP, DOWN };
 Direction dir;
 bool gameOver;
-const int height = 20;
-const int width = 20;
+const int height = 23;
+const int width = 23;
 int headX, headY, fruitX, fruitY, score;
 int tailx[100], taily[100];
 int tail_len;
@@ -55,6 +55,7 @@ int main()
 
     return 0;
 }
+
 
 void setup()
 {
